@@ -15,11 +15,11 @@ export class IntroHtmlParser {
 
     getImgUrls(): Array<ImgPageInfo> {
         if (this._isValidIntroPage()) {
-            return Array.prototype.slice.call(this.html.getElementsByClassName('gdtm'), 0).map(item => {
-                item.children[0].getAttribute('style').match(/width:(.*?)px; height:(.*?)px;/g);
+            return Array.from(this.html.querySelectorAll('.gt200>a')).map(item => {
+                item.querySelector('div')!.getAttribute('style')!.match(/width:(.*?)px;\s*height:(.*?)px;/);
                 const thumbHeight = Number(RegExp.$2);
                 const thumbWidth = Number(RegExp.$1);
-                let pageUrl = item.getElementsByTagName('a')[0].getAttribute('href').match(/\/s.*$/) + '';
+                let pageUrl = item.getAttribute('href')!.match(/\/s.*$/) + '';
                 return {
                     id: pageUrl,
                     index: 0,
@@ -37,7 +37,7 @@ export class IntroHtmlParser {
 
     getThumbObjList(): Array<ThumbInfo> {
         if (this._isValidIntroPage()) {
-            return Array.from(this.html.querySelectorAll('.gdtm>div')).map(div=>{
+            return Array.from(this.html.querySelectorAll('.gt200>a>div')).map(div=>{
                 let url_s = (div as HTMLDivElement).style.backgroundImage;
                 let pos_s = (div as HTMLDivElement).style.backgroundPositionX;
                 if(url_s && url_s.startsWith('url("') && pos_s && pos_s.endsWith('px')) {
