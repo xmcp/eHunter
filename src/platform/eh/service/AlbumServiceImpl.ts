@@ -130,21 +130,28 @@ export class AlbumServiceImpl extends AlbumService {
     formula_2: p = 1 / (sum - 1).
     */
     async getPreviewThumbnailStyle(index: number, imgPageInfo: ImgPageInfo, thumbInfo: ThumbInfo) {
-        const indexInThumbSprite = index % 20;
-        const sumOfThumbInSprite = (await this.getPageCount() - (index + 1)) >= await this.getPageCount() % 20 ?
-            20 : (await this.getPageCount() % 20);
-        let percentage;
-        if (imgPageInfo.heightOfWidth >= 1.43) {
-            percentage = 1 / (sumOfThumbInSprite * (1 - (1 / imgPageInfo.heightOfWidth) * (imgPageInfo.thumbHeight! / (sumOfThumbInSprite * 100))));
-        } else {
-            percentage = 1 / (sumOfThumbInSprite - 1);
+        if(thumbInfo.mode===1) { // img
+            return {
+                'background-image': `url(${thumbInfo.src})`,
+                'background-size': 'contain',
+            };
+        } else { // sprite            
+            const indexInThumbSprite = index % 20;
+            const sumOfThumbInSprite = (await this.getPageCount() - (index + 1)) >= await this.getPageCount() % 20 ?
+                20 : (await this.getPageCount() % 20);
+            let percentage;
+            if (imgPageInfo.heightOfWidth >= 1.43) {
+                percentage = 1 / (sumOfThumbInSprite * (1 - (1 / imgPageInfo.heightOfWidth) * (imgPageInfo.thumbHeight! / (sumOfThumbInSprite * 100))));
+            } else {
+                percentage = 1 / (sumOfThumbInSprite - 1);
+            }
+            let offsetPercentage = indexInThumbSprite * percentage;
+            return {
+                'background-image': `url(${thumbInfo.src})`,
+                'background-position': `${offsetPercentage * 100}% 0`,
+                'background-size': imgPageInfo.heightOfWidth >= 1.43 ? 'cover' : `${sumOfThumbInSprite * 100}%`
+            };
         }
-        let offsetPercentage = indexInThumbSprite * percentage;
-        return {
-            'background-image': `url(${thumbInfo.src})`,
-            'background-position': `${offsetPercentage * 100}% 0`,
-            'background-size': imgPageInfo.heightOfWidth >= 1.43 ? 'cover' : `${sumOfThumbInSprite * 100}%`
-        };
     }
 
     supportOriginImg(): boolean {

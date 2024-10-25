@@ -2,9 +2,9 @@ import { ImgPageInfo } from "../bean/ImgPageInfo";
 import { ThumbInfo } from "../bean/ThumbInfo";
 
 export interface PreviewThumbnailStyle {
-    'background-image': string;
-    'background-position': string;
-    'background-size': string;
+    'background-image'?: string;
+    'background-position'?: string;
+    'background-size'?: string;
 }
 
 export interface IndexInfo {

@@ -39,22 +39,19 @@ export class IntroHtmlParser {
         if (this._isValidIntroPage()) {
             return Array.from(this.html.querySelectorAll('.gt200>a>div')).map(div=>{
                 let url_s = (div as HTMLDivElement).style.backgroundImage;
-                let pos_s = (div as HTMLDivElement).style.backgroundPositionX;
-                if(url_s && url_s.startsWith('url("') && pos_s && pos_s.endsWith('px')) {
+                if(url_s && url_s.startsWith('url("')) {
                     let url = url_s.substring(5, url_s.length - 2);
-                    let pos = parseInt(pos_s.substring(0, pos_s.length - 2));
                     return {
-                        id: url+pos,
+                        id: url,
                         src: url,
-                        mode: ThumbMode.SPIRIT,
-                        offset: -pos,
+                        mode: ThumbMode.IMG,
                     };
                 }
                 else
                     return {
                         id: '',
                         src: '',
-                        mode: ThumbMode.SPIRIT,
+                        mode: ThumbMode.IMG,
                     };
             }).filter(x=>x.src!=='');
         } else {
