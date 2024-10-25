@@ -10,6 +10,7 @@ import Formatter from '../utils/formatter'
 
 class InfoService {
     async showInstruction(config, isCompulsive) {
+        return; // xmcp: disabled this popup
         let dialog = new DialogBean(
             isCompulsive ? tags.DIALOG_COMPULSIVE : tags.DIALOG_NORMAL,
             store.getters.string.instructionsAndAbouts,
@@ -94,6 +95,7 @@ class InfoService {
 
     // if updated a new version, shows messages
     async checkNewVersion(config): Promise<void> {
+        return; // xmcp: disabled this popup
         if (await SettingService.getVersion() !== config.version) {
             let dialog = new DialogBean(
                 tags.DIALOG_COMPULSIVE,
