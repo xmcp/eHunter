@@ -4,6 +4,8 @@ import { IntroHtmlParser } from './IntroHtmlParser'
 import { ImgPageInfo } from '../../../../core/bean/ImgPageInfo'
 import { ThumbInfo } from "../../../../core/bean/ThumbInfo";
 
+const IMG_PER_PAGE = 20;
+
 export class ImgUrlListParser {
     private introUrl: string;
     private sumOfIntroPage: number;
@@ -22,15 +24,14 @@ export class ImgUrlListParser {
     }
 
     _getSumOfIntroPage(sumOfImgPage): number {
-        // 40 is the thumb sum per intro page when small thumb model
-        if (sumOfImgPage < 40) {
+        if (sumOfImgPage < IMG_PER_PAGE) {
             return 1;
         }
-        let reminder = sumOfImgPage % 40;
+        let reminder = sumOfImgPage % IMG_PER_PAGE;
         if (reminder > 1) {
-            return (sumOfImgPage - reminder) / 40 + 1;
+            return (sumOfImgPage - reminder) / IMG_PER_PAGE + 1;
         } else {
-            return sumOfImgPage / 40;
+            return sumOfImgPage / IMG_PER_PAGE;
         }
     }
 
